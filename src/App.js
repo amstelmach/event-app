@@ -1,9 +1,30 @@
 import './App.css';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    getApiData();
+  }, [])
+
+  const getApiData = async() => {
+    const api = await fetch(`https://gist.githubusercontent.com/codeholic/23e37417db35be1fa89060b360abb164/raw/deb4e8dd41c3df43fffb7e7f7770a38cd8cf5d40/event_venues.json`);
+    const response = await api.json();
+    setData(response);
+  }
+
   return (
     <div>
-      event app
+      {
+        data.map(item => {
+          return(
+            <div key={item.id}>
+              <h4>{item.title}</h4>
+            </div>
+          )
+        })
+      }
     </div>
   );
 }
