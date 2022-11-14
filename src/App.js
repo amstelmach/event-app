@@ -30,7 +30,21 @@ function App() {
     }
   }
 
-  const filteredPlaces = filtered.length > 0 ? data.filter(place => filtered.includes(place.title)) : data;
+  // const filteredPlaces = filtered.length > 0 ? data.filter(place => filtered.includes(place.title)) : data;
+
+  const [inputId, setInputId] = useState('')
+
+  const updateSearch = (e) => {
+    setInputId(e.target.value);
+  }
+
+  const filteredIds = data.filter(place => {
+    if (inputId === '') {
+      return place.title
+    } else if (place.title.includes(inputId)) {
+      return place.title
+    }
+  })
 
   return (
     <div className="main-container">
@@ -47,9 +61,13 @@ function App() {
           })
         }
       </div>
+      <div>
+        <h2>filter</h2>
+        <input placeholder="enter id" type="text" value={inputId} onChange={updateSearch}/>
+      </div>
       <h2>Places:</h2>
       {
-        filteredPlaces.map(place => {
+        filteredIds.map(place => {
           return(
             <div key={place.id}>
               <h4>{place.title}</h4>
